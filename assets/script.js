@@ -22,9 +22,26 @@ const slides = [
 //}); // pour verifier dans l'inspecteur que chaques image est recuperer
 
 document.addEventListener('DOMContentLoaded', function() {
+    const banner = document.getElementById('banner');
+    const dotsContainer = document.querySelector('.dots');
+    dotsContainer.innerHTML = ''; // Vide les points existants
+
+    slides.forEach((_, index) => {
+        const dot = document.createElement('div');
+        dot.className = 'dot';
+        dot.addEventListener('click', () => {
+            updateSlide(index);
+            updateDots(index);
+        });
+        dotsContainer.appendChild(dot);
+    });
+
+    let currentIndex = 0;
+    updateSlide(currentIndex);
+    updateDots(currentIndex);
+
     const leftArrow = document.querySelector('.arrow_left');
     const rightArrow = document.querySelector('.arrow_right');
-    let currentIndex = 0;
 
     leftArrow.addEventListener('click', function() {
         currentIndex = (currentIndex === 0) ? slides.length - 1 : currentIndex - 1;
@@ -48,13 +65,7 @@ document.addEventListener('DOMContentLoaded', function() {
     function updateDots(currentIndex) {
         const dots = document.querySelectorAll('.dot');
         dots.forEach((dot, index) => {
-            if (index === currentIndex) {
-                dot.classList.add('dot_selected');
-            } else {
-                dot.classList.remove('dot_selected');
-            }
+            dot.classList.toggle('dot_selected', index === currentIndex);
         });
     }
 });
-
-
